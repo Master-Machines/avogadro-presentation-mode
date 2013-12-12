@@ -7,23 +7,88 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<style>
+	.header{
+		font-size: 350%;
+		opacity: 0;
+	}
+	.placeDisplaySchool {
+		font-size: 220%;
+		opacity: 0;
+		margin: 20px;
+		padding: 10px;
+	}
+	#present{
+		margin: 20px;
+	}
+	</style>
 </head>
-<body>
+<body style='overflow: hidden'>
 <div id="present">
 
 </div>
 </div>
 </body>
 <script>
+	var presentation = {};
+	presentation.sampleArray = [{'school':'Nowhereville', 'students':'John Doe, Jane Doe', 'score':'42'}, {'school':'Everytown', 'students':'John Doe, Jane Doe', 'score':'42'}, {'school':'Bayside', 'students':'John Doe, Jane Doe', 'score':'42'}];
+	presentation.sampleCategory = "overall";
+	presentation.numPlaces = 6;
+	presentation.currentPlace;
+	presentation.placeDisplayAnimateTime = 1000;
 	$(function(){
-		
+		setData(presentation.sampleArray, presentation.sampleCategory);
+		$('body').keydown(function(e) {
+			switch (e.which) {
+				case 39 :
+					displayPlace (-1);
+					break;
+				case 37 :
+					displayPlace (1);
+					break;
+				case 27 :
+					displayPlace (-1000);
+			}
+		});
+			
 	});
-	window.addEventListener('message',function(event) {
-		console.dir('message received:  ' + event.data,event);
-		//event.source.postMessage('holla back youngin!',event.origin);
-	},false);
-	function tester(data){
-		alert(data);
+	
+	
+	function setData (dataArray, category) {
+		presentation.placeArray = dataArray;
+		$("#present").html("");
+		$("#present").append("<div class='header'>" + category + "</div>")
+		$(".header").css({"margin-left" : $(window).width() * .9 + 'px'}).animate({"opacity" : 1, "margin-left" : '10px'}, 1000, "easeOutBounce");
+		presentation.currentPlace = presentation.numPlaces;
+		dataArray.forEach( function(data, index)	{
+			$("#present").append("<div><div class='placeDisplaySchool' ind='" + index + "' id='place" + index + "'>" + (index + 1).toString() + ". " + data.school + "</div></div>");
+		});
+		$(".placeDisplaySchool").css({"margin-left" : $(window).width() + 'px'});
+	}
+
+	function displayPlace (changeInPlace) {
+		presentation.currentPlace += changeInPlace;
+		if(presentation.currentPlace < 0)
+			presentation.currentPlace = 0;
+		if(changeInPlace > 0){
+			if(presentation.currentPlace >= presentation.placeArray.length)
+				presentation.currentPlace = presentation.placeArray.length;
+			$(".placeDisplaySchool").each(function(){
+				if($(this).attr("ind") < presentation.currentPlace)
+					$(this).animate({"margin-left" : $(window).width()* .9 + 'px', opacity : 0}, 1000);
+			});
+		}else{
+			if(presentation.currentPlace >= presentation.placeArray.length)
+				presentation.currentPlace = presentation.placeArray.length-1;
+			$("#place" + presentation.currentPlace).animate({"opacity" : 1, "margin-left" : '50px'}, presentation.placeDisplayAnimateTime, "easeInOutExpo");
+		}
+		
+		
+		
+	}
+
+	function setNumberOfPlaces (num) {
+		presentation.numPlaces = num;
 	}
 </script>
 </html>
