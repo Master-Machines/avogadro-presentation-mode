@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>Child</title>
+</head>
+<body>
+<div id="console">
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var parent = window.opener;
+	setInterval(function() {
+		parent.postMessage('Hello from Child', '*');
+	}, 2000);
+
+	window.addEventListener("message", receiveMessage, false);
+});
+
+function receiveMessage(event) {
+	$('#console').append('Message received: '+event.data+'<br />');
+}
+</script>
+</body>
+</html>
