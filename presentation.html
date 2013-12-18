@@ -64,6 +64,7 @@
 			if(event.data.act === 'changePlace') displayPlace (event.data.val);
 			if(event.data.act === 'setData') {
 				setData(event.data.array, event.data.category);
+				setNumberOfPlaces(event.data.numPlaces);
 			}
 		}
 		
@@ -87,8 +88,8 @@
 		if(presentation.currentPlace < 0)
 			presentation.currentPlace = 0;
 		if(changeInPlace > 0){
-			if(presentation.currentPlace >= presentation.placeArray.length)
-				presentation.currentPlace = presentation.placeArray.length;
+			if(presentation.currentPlace >= presentation.numPlaces)
+				presentation.currentPlace = presentation.numPlaces;
 			$(".placeDisplaySchool").each(function(){
 				if($(this).attr("ind") < presentation.currentPlace)
 					$(this).animate({"left" : $(window).width()* .7 + 'px', opacity : 0}, 600,function(){
@@ -96,8 +97,8 @@
 					});
 			});
 		}else{
-			if(presentation.currentPlace >= presentation.placeArray.length)
-				presentation.currentPlace = presentation.placeArray.length-1;
+			if(presentation.currentPlace >= presentation.numPlaces)
+				presentation.currentPlace = presentation.numPlaces-1;
 			$("#place" + presentation.currentPlace).animate({"opacity" : 1, "left" : '50px'}, presentation.placeDisplayAnimateTime, "easeInOutExpo");
 		}
 		
@@ -106,7 +107,10 @@
 	}
 
 	function setNumberOfPlaces (num) {
-		presentation.numPlaces = num;
+		if (num <= presentation.placeArray.length)
+			presentation.numPlaces = num;
+		else
+			presentation.numPlaces = presentation.placeArray.length;
 	}
 </script>
 </html>

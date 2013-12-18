@@ -42,6 +42,8 @@ function linkClick(data){
 		dataToSend.act = "setData";
 		dataToSend.array = avgo.eventData[data];
 		dataToSend.category = data;
+		var elem = document.getElementById('placesSelector');
+		dataToSend.numPlaces = elem.options[elem.selectedIndex].value;
 		windowRef.postMessage(dataToSend,"*");
 	}, 1000);
 	$('.controls').fadeIn(100);
