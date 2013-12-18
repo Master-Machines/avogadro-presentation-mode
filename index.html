@@ -14,10 +14,21 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
+<style>
+#wrapper {
+	font-size: 200%;
+}
+#controls {
+	margin: 0 auto;
+}
+</style>
 <div id="wrapper">
 
 </div>
-
+<div id='controls'>
+	<button id='nextButton' class='controls' v='-1'>Next</button>
+	<button id='previousButton' class='controls' v='1'>Previous</button>
+	<button id='resetButton' class='controls' v='1000'>Reset</button>
 </div>
 <script>
 avgo = {}; // Global object
@@ -25,7 +36,7 @@ avgo.eventData = {
 'overall': [{'school':'Nowhereville', 'students':'John Doe, Jane Doe', 'score':'42'}, {'school':'Everytown', 'students':'John Doe, Jane Doe', 'score':'42'}, {'school':'Bayside', 'students':'John Doe, Jane Doe', 'score':'42'}],
 'boomilever': [{'school':'Nowhereville', 'students':'John Doe, Jane Doe'}, {'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'}],
 'chemistry lab': [{'school':'Nowhereville', 'students':'John Doe, Jane Doe'}, {'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'}],
-'dynamic planet': [{'school':'Nowhereville', 'students':'John Doe, Jane Doe'}, {'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'}]
+'dynamic planet': [{'school':'Nowhereville', 'students':'John Doe, Jane Doe'}, {'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'},{'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'},{'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'},{'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'},{'school':'Everytown', 'students':'John Doe, Jane Doe'}, {'school':'Bayside', 'students':'John Doe, Jane Doe'}]
 };
 </script>
 <script type="text/javascript" src="js/presentationApp.js"></script>

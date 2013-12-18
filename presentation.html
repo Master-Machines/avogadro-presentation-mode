@@ -11,33 +11,37 @@
 	.header{
 		font-size: 350%;
 		opacity: 0;
+		position: absolute;
 	}
 	.placeDisplaySchool {
 		font-size: 220%;
 		opacity: 0;
-		margin: 20px;
-		padding: 10px;
+		position: absolute;
 	}
 	#present{
-		margin: 20px;
+	}
+	tr {
+		height: 100px;
+	}
+	td {
 	}
 	</style>
 </head>
 <body style='overflow: hidden'>
-<div id="present">
+<table>
+	<tbody id="present">
 
-</div>
+	</tbody>
+</table>
 </div>
 </body>
 <script>
 	var presentation = {};
-	presentation.sampleArray = [{'school':'Nowhereville', 'students':'John Doe, Jane Doe', 'score':'42'}, {'school':'Everytown', 'students':'John Doe, Jane Doe', 'score':'42'}, {'school':'Bayside', 'students':'John Doe, Jane Doe', 'score':'42'}];
-	presentation.sampleCategory = "overall";
 	presentation.numPlaces = 6;
 	presentation.currentPlace;
 	presentation.placeDisplayAnimateTime = 1000;
 	$(function(){
-		setData(presentation.sampleArray, presentation.sampleCategory);
+		//setData(presentation.sampleArray, presentation.sampleCategory);
 		$('body').keydown(function(e) {
 			switch (e.which) {
 				case 39 :
@@ -47,23 +51,35 @@
 					displayPlace (1);
 					break;
 				case 27 :
-					displayPlace (-1000);
+					displayPlace (1000);
+					break;
 			}
 		});
-			
+		window.addEventListener("message", receiveMessage, false);
 	});
 	
-	
+	function receiveMessage(event) {
+		console.dir(event.data);
+		if(typeof event.data === 'object') {
+			if(event.data.act === 'changePlace') displayPlace (event.data.val);
+			if(event.data.act === 'setData') {
+				setData(event.data.array, event.data.category);
+			}
+		}
+		
+	}
 	function setData (dataArray, category) {
 		presentation.placeArray = dataArray;
 		$("#present").html("");
-		$("#present").append("<div class='header'>" + category + "</div>")
-		$(".header").css({"margin-left" : $(window).width() * .9 + 'px'}).animate({"opacity" : 1, "margin-left" : '10px'}, 1000, "easeOutBounce");
+		$("#present").append("<tr><td><div class='header'>" + category + "</div></td></tr>")
+		$(".header").css({"left" : $(window).width() * .9 + 'px'}).animate({"opacity" : 1, "left" : '10px'}, 1000, "easeOutBounce");
 		presentation.currentPlace = presentation.numPlaces;
 		dataArray.forEach( function(data, index)	{
-			$("#present").append("<div><div class='placeDisplaySchool' ind='" + index + "' id='place" + index + "'>" + (index + 1).toString() + ". " + data.school + "</div></div>");
+			var scoreString = "";
+			if(data.score) scoreString = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.score + " points"
+			$("#present").append("<tr><td><div class='placeDisplaySchool' ind='" + index + "' id='place" + index + "'><span style='font-size:120%'>" + (index + 1).toString() + ".</span> " + data.school + "<br/> &nbsp;&nbsp;&nbsp;" + data.students + scoreString + "</div></td></tr>");
 		});
-		$(".placeDisplaySchool").css({"margin-left" : $(window).width() + 'px'});
+		$(".placeDisplaySchool").css({"left" : $(window).width() + 'px'});
 	}
 
 	function displayPlace (changeInPlace) {
@@ -75,12 +91,14 @@
 				presentation.currentPlace = presentation.placeArray.length;
 			$(".placeDisplaySchool").each(function(){
 				if($(this).attr("ind") < presentation.currentPlace)
-					$(this).animate({"margin-left" : $(window).width()* .9 + 'px', opacity : 0}, 1000);
+					$(this).animate({"left" : $(window).width()* .7 + 'px', opacity : 0}, 600,function(){
+						$(this);
+					});
 			});
 		}else{
 			if(presentation.currentPlace >= presentation.placeArray.length)
 				presentation.currentPlace = presentation.placeArray.length-1;
-			$("#place" + presentation.currentPlace).animate({"opacity" : 1, "margin-left" : '50px'}, presentation.placeDisplayAnimateTime, "easeInOutExpo");
+			$("#place" + presentation.currentPlace).animate({"opacity" : 1, "left" : '50px'}, presentation.placeDisplayAnimateTime, "easeInOutExpo");
 		}
 		
 		
