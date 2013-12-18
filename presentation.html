@@ -39,7 +39,7 @@
 	var presentation = {};
 	presentation.numPlaces = 6;
 	presentation.currentPlace;
-	presentation.placeDisplayAnimateTime = 1000;
+	presentation.placeDisplayAnimateTime = 600;
 	$(function(){
 		//setData(presentation.sampleArray, presentation.sampleCategory);
 		$('body').keydown(function(e) {
@@ -73,7 +73,7 @@
 		presentation.placeArray = dataArray;
 		$("#present").html("");
 		$("#present").append("<tr><td><div class='header'>" + category + "</div></td></tr>")
-		$(".header").css({"left" : $(window).width() * .9 + 'px'}).animate({"opacity" : 1, "left" : '10px'}, 1000, "easeOutBounce");
+		$(".header").css({"left" : $(window).width() * .9 + 'px'}).animate({"opacity" : 1, "left" : '10px'}, presentation.placeDisplayAnimateTime, "easeOutBounce");
 		presentation.currentPlace = presentation.numPlaces;
 		dataArray.forEach( function(data, index)	{
 			var scoreString = "";
@@ -92,7 +92,7 @@
 				presentation.currentPlace = presentation.numPlaces;
 			$(".placeDisplaySchool").each(function(){
 				if($(this).attr("ind") < presentation.currentPlace)
-					$(this).animate({"left" : $(window).width()* .7 + 'px', opacity : 0}, 600,function(){
+					$(this).animate({"left" : $(window).width()* .7 + 'px', opacity : 0}, presentation.placeDisplayAnimateTime,function(){
 						$(this);
 					});
 			});
