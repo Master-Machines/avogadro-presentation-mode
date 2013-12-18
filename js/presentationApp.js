@@ -36,7 +36,7 @@ $(function() {
 });
 
 function linkClick(data){
-	windowRef = window.open("presentation.html",'titleTown','width=800, height=900');
+	windowRef = window.open("presentation.html",'titleTown','width=800, height=900, resizable=yes');
 	setTimeout(function() {
 		var dataToSend = {};
 		dataToSend.act = "setData";
